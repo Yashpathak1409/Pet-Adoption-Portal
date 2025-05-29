@@ -1,0 +1,118 @@
+/* Container */
+.view-all-pets-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+}
+
+.view-all-pets-container h1 {
+  text-align: center;
+  font-size: 2.4rem;
+  margin-bottom: 1.5rem;
+  color: #0066cc;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+}
+
+/* Grid container */
+.pet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.6rem;
+  justify-items: center;
+}
+
+/* Card */
+.pet-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  padding: 1.2rem;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.pet-card:hover {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+}
+
+.pet-image {
+  width: 100%;
+  max-height: 140px;      /* limit max height */
+  object-fit: contain;    /* show entire image, no cropping */
+  border-radius: 10px;
+  margin-bottom: 0.9rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f7f7f7; /* subtle bg if image has transparent parts */
+}
+
+/* Pet name */
+.pet-name {
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+  color: #004080;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Pet info */
+.pet-card p {
+  font-size: 0.92rem;
+  margin: 0.2rem 0;
+  color: #444;
+  width: 100%;
+  text-align: center;
+}
+
+.pet-card strong {
+  color: #222;
+}
+
+/* Status badges */
+.status-available {
+  display: inline-block;
+  color: #22863a;
+  font-weight: 600;
+  background-color: #dff6dd;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  box-shadow: inset 0 0 5px rgba(34, 134, 58, 0.3);
+  font-size: 0.9rem;
+}
+
+.status-adopted {
+  display: inline-block;
+  color: #b31d28;
+  font-weight: 600;
+  background-color: #f9d6d5;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  box-shadow: inset 0 0 5px rgba(179, 29, 40, 0.3);
+  font-size: 0.9rem;
+}
+
+/* More info button */
+.more-info-button {
+  margin-top: 1rem;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.more-info-button:hover {
+  background-color: #005fa3;
+}
