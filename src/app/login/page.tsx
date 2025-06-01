@@ -24,29 +24,41 @@ export default function LoginPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: form.email,
-        password: form.password,
-      }),
-    });
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      setMessage(data.message || 'Login successful!');
-      setIsSuccess(true);
-      setForm({ email: '', password: '' });
+      if (res.ok) {
+        setMessage(data.message || 'Login successful!');
+        setIsSuccess(true);
+        setForm({ email: '', password: '' });
 
-      // Redirect to homepage after a short delay
-      setTimeout(() => {
-        router.push('/homepage');
-      }, 1500);
-    } else {
-      setMessage(data.error || 'Invalid credentials');
+        // Navigate based on the role returned from backend
+        if (data.role === 'admin') {
+          setTimeout(() => {
+            router.push('/adminpanel/dashboard');
+          }, 1500);
+        } else {
+          setTimeout(() => {
+            router.push('/homepage');
+          }, 1500);
+        }
+      } else {
+        setMessage(data.error || 'Invalid credentials');
+        setIsSuccess(false);
+      }
+    } catch (error) {
+      setMessage('An unexpected error occurred');
       setIsSuccess(false);
+      console.error('Login error:', error);
     }
   };
 

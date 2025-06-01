@@ -21,23 +21,25 @@ type Pet = {
   dateOfEntry: string;
 };
 
+function isError(err: unknown): err is Error {
+  return err instanceof Error;
+}
+
 export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db('petyashauth1409atlas');
-    const petsCollection = db.collection('petsauthprofile');
+    const petsCollection = db.collection<Pet>('petsauthprofile');
 
     // Fetch all pets
     const pets = await petsCollection.find({}).toArray();
 
     // Return pets as JSON
     return NextResponse.json(pets);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Fetch pets error:', error);
-    return NextResponse.json(
-      { message: error.message || 'Failed to fetch pets' },
-      { status: 500 }
-    );
+    const message = isError(error) ? error.message : 'Failed to fetch pets';
+    return NextResponse.json({ message }, { status: 500 });
   }
 }
 
@@ -55,7 +57,7 @@ export async function POST(req: Request) {
 
     const client = await clientPromise;
     const db = client.db('petyashauth1409atlas');
-    const petsCollection = db.collection('petsauthprofile');
+    const petsCollection = db.collection<Pet>('petsauthprofile');
 
     const result = await petsCollection.insertOne(petData);
 
@@ -63,11 +65,9 @@ export async function POST(req: Request) {
       { message: 'Pet added successfully', insertedId: result.insertedId },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Insert pet error:', error);
-    return NextResponse.json(
-      { message: error.message || 'Failed to add pet' },
-      { status: 500 }
-    );
+    const message = isError(error) ? error.message : 'Failed to add pet';
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

@@ -62,7 +62,7 @@ export default function AboutPage() {
           <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-400">
             <h3 className="text-2xl font-bold mb-3 text-green-700">Adoption Saves Lives</h3>
             <p className="text-gray-600">
-              By adopting a pet, you're not just gaining a friend—you’re saving a life. Many shelter animals await loving homes.
+              By adopting a pet, you are not just gaining a friend—you’re saving a life. Many shelter animals await loving homes.
             </p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-400">

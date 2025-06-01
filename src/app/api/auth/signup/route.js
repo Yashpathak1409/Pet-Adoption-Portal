@@ -1,13 +1,12 @@
 import clientPromise from '../../../../../lib/mongodb';
-
 import bcrypt from 'bcryptjs';
 
 export async function POST(request) {
   try {
-    const { email, password, fullName } = await request.json();
+    const { email, password, fullName, role } = await request.json();
 
     // Validate input fields
-    if (!email || !password || !fullName) {
+    if (!email || !password || !fullName || !role) {
       return new Response(JSON.stringify({ error: 'All fields are required.' }), {
         status: 400,
       });
@@ -15,7 +14,7 @@ export async function POST(request) {
 
     // Connect to MongoDB
     const client = await clientPromise;
-    const db = client.db('petyashauth1409atlas'); // Specify your DB name
+    const db = client.db('petyashauth1409atlas'); // your DB name
 
     // Check if user already exists
     const existingUser = await db.collection('petusers').findOne({ email });
@@ -32,6 +31,7 @@ export async function POST(request) {
     const newUser = {
       email,
       fullName,
+      role: role.toLowerCase(), // sanitize and store role
       password: hashedPassword,
       createdAt: new Date(),
     };

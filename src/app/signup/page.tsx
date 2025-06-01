@@ -8,6 +8,7 @@ export default function SignupPage() {
     email: '',
     password: '',
     confirmPassword: '',
+    role: 'user', // default role
   });
 
   const [message, setMessage] = useState('');
@@ -15,7 +16,7 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -38,6 +39,7 @@ export default function SignupPage() {
         fullName: form.fullName,
         email: form.email,
         password: form.password,
+        role: form.role,
       }),
     });
 
@@ -51,6 +53,7 @@ export default function SignupPage() {
         email: '',
         password: '',
         confirmPassword: '',
+        role: 'user',
       });
       setTimeout(() => window.location.reload(), 1500);
     } else {
@@ -97,6 +100,18 @@ export default function SignupPage() {
             className="w-full px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-green-400 focus:border-green-600 text-gray-700 font-medium placeholder-gray-400 transition"
             required
           />
+
+          {/* Role Selector */}
+          <select
+            name="role"
+            value={form.role}
+            onChange={handleChange}
+            className="w-full px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-green-400 focus:border-green-600 text-gray-700 font-medium transition"
+            required
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
 
           <div className="relative">
             <input

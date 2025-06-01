@@ -58,7 +58,7 @@ export default function HomePage() {
   };
 
   const handleViewAllPets = () => {
-    router.push('/allpets');
+    router.push('/userpets/pets');
   };
 
   return (

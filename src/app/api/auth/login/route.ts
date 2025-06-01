@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import clientPromise from '../../../../../lib/mongodb';
-
 import bcrypt from 'bcryptjs';
 
 export async function POST(request: Request) {
@@ -30,9 +29,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
     }
 
-    // You can add session or token here if needed
-
-    return NextResponse.json({ message: 'Login successful!' }, { status: 200 });
+    // Return role along with success message
+    return NextResponse.json(
+      { message: 'Login successful!', role: user.role || 'user' }, // Default to 'user' if role is undefined
+      { status: 200 }
+    );
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(

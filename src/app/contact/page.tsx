@@ -35,6 +35,7 @@ export default function ContactPage() {
         setErrorMsg(data.error || 'Something went wrong.');
       }
     } catch (error) {
+      console.error(error);
       setErrorMsg('Network error. Please try again later.');
     } finally {
       setLoading(false);

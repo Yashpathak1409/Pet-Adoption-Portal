@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import './ViewAllPets.css'; // import the CSS file
+import Link from 'next/link'; // ✅ Import Link
+import './ViewAllPets.css';
 
 type Pet = {
   _id: string;
@@ -12,6 +13,19 @@ type Pet = {
   image: string;
   status: 'Available' | 'Adopted';
 };
+
+// Interface for raw pet data as returned from your API
+interface RawPet {
+  _id: string;
+  petName: string;
+  petType?: string;
+  breed: string;
+  age: number;
+  gender: string;
+  photoUrl?: string;
+  availableForAdoption: boolean;
+  // ... you can add more fields if needed
+}
 
 interface ViewAllPetsProps {
   limit?: number;
@@ -25,11 +39,11 @@ const ViewAllPets: React.FC<ViewAllPetsProps> = ({ limit }) => {
   useEffect(() => {
     const fetchPets = async () => {
       try {
-        const response = await fetch('/api/auth/petprofile'); // Your API endpoint
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data: any[] = await response.json();
+        const response = await fetch('/api/auth/petprofile');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        // Explicitly type the fetched data as RawPet[]
+        const data: RawPet[] = await response.json();
 
         const mappedPets: Pet[] = data.map((pet) => {
           const status: 'Available' | 'Adopted' = pet.availableForAdoption ? 'Available' : 'Adopted';
@@ -46,8 +60,13 @@ const ViewAllPets: React.FC<ViewAllPetsProps> = ({ limit }) => {
 
         const limitedPets = limit ? mappedPets.slice(0, limit) : mappedPets;
         setPets(limitedPets);
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch pets');
+      } catch (err) {
+        // Use unknown type and narrow it to Error safely
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Failed to fetch pets');
+        }
       } finally {
         setLoading(false);
       }
@@ -56,13 +75,8 @@ const ViewAllPets: React.FC<ViewAllPetsProps> = ({ limit }) => {
     fetchPets();
   }, [limit]);
 
-  if (loading) {
-    return <p>Loading pets...</p>;
-  }
-
-  if (error) {
-    return <p className="error">Error: {error}</p>;
-  }
+  if (loading) return <p>Loading pets...</p>;
+  if (error) return <p className="error">Error: {error}</p>;
 
   return (
     <div className="view-all-pets-container">
@@ -84,7 +98,11 @@ const ViewAllPets: React.FC<ViewAllPetsProps> = ({ limit }) => {
                   {pet.status}
                 </span>
               </p>
-              <button className="more-info-button">More Info</button>
+
+              {/* ✅ More Info navigates to full pet details page */}
+              <Link href={`/adminpanel/PetDetails/${pet._id}`}>
+                <button className="more-info-button">More Info</button>
+              </Link>
             </div>
           ))}
         </div>

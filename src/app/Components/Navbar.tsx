@@ -8,6 +8,7 @@ export default function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-xl font-bold">Pet Adoption</div>
         <div className="space-x-4">
+          <Link href="/Ourpolicies" className="hover:underline">Our policies</Link>
           <Link href="/homepage" className="hover:underline">Home</Link>
           <Link href="/about" className="hover:underline">About</Link>
           <Link href="/contact" className="hover:underline">Contact</Link>
